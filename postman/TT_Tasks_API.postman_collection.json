@@ -1,0 +1,157 @@
+{
+	"info": {
+		"_postman_id": "d501af8a-bf00-4a54-92a6-ad96caf95663",
+		"name": "TT_Tasks_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29735037",
+		"_collection_link": "https://lively-astronaut-120981.postman.co/workspace/My-Workspace~77a190d5-a87b-48e0-8c71-50a7c272401e/collection/29735037-d501af8a-bf00-4a54-92a6-ad96caf95663?action=share&source=collection_link&creator=29735037"
+	},
+	"item": [
+		{
+			"name": "GET_(1)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/api/Tasks?id=3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"Tasks"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET_(all)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/api/Tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"Tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "Exposition",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "I want to buy pans on sale",
+							"type": "text"
+						},
+						{
+							"key": "status",
+							"value": "done",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/api/Tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"Tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 9,\r\n    \"filter\": {\r\n        \"title\": \"Exposition\",\r\n        \"description\": \"Arrived 5 minutes before closing\",\r\n        \"status\": \"doner-kebasdsb\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/api/Tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"Tasks"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "8",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/api/Tasks?id=6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"Tasks"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

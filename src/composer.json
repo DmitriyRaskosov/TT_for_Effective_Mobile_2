@@ -1,0 +1,7 @@
+{
+  "require": {
+    "zircote/swagger-php": "^5.1",
+    "php": "^8.0.0",
+    "ext-mysqli": "*"
+  }
+}
