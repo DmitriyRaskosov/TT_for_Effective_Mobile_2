@@ -9,6 +9,11 @@ require_once __DIR__.'/../../Database.php';
 class Tasks extends AbstractModel {
 
     public static string $table_name = 'tasks';
-    public static array $attributes = ['title', 'description', 'status'];
+    protected static array $attributes = ['title', 'description', 'status'];
+
+    protected static function getModelAttributes(): array
+    {
+        return self::$attributes;
+    }
 
 }

@@ -4,14 +4,32 @@ require_once __DIR__.'/../../Database.php';
 abstract class AbstractModel {
     public ?int $id = null;
 
+    abstract protected static function getModelAttributes(): array;
+
     /**
      * Валидация атрибутов модели
      * @throws /Exception если в атрибуте ошибка
      */
-    public static function validateAttribute(string $attribute): void
+
+    public static function validateAttribute($data): void
     {
-        if (!in_array($attribute, static::$attributes)) {
-            throw new Exception("Неверный атрибут: $attribute");
+        $allowedKeys = static::getModelAttributes();
+        $inputKeys = array_keys($data);
+
+        // Проверяем лишние поля
+        if ($extraKeys = array_diff($inputKeys, $allowedKeys)) {
+            throw new Exception('Недопустимые поля: ' . implode(', ', $extraKeys));
+        }
+
+        // Проверяем обязательные поля
+        if ($missingKeys = array_diff($allowedKeys, $inputKeys)) {
+            throw new Exception('Отсутствуют обязательные поля: ' . implode(', ', $missingKeys));
+        }
+        // Проверка значений
+        foreach ($data as $key => $value) {
+            if ($value === null) {
+                throw new Exception("Пустое значение атрибута: $key");
+            }
         }
     }
 
@@ -21,12 +39,13 @@ abstract class AbstractModel {
      */
     public static function getOne(int $id): bool|array
     {
-        $data = Database::getConnection()->prepare('SELECT * FROM `'.static::$table_name.'` WHERE `id` ='.$id);
-        $data->execute();
-        if (empty($data)) {
+        $data = Database::getConnection()->prepare('SELECT * FROM `'.static::$table_name.'` WHERE `id` = :id');
+        $data->execute([':id' => $id]);
+        $result = $data->fetchAll();
+        if (empty($result)) {
             throw new Exception("Запись не найдена");
         }
-        return $data->fetchAll();
+        return $result;
     }
 
     /**
@@ -46,13 +65,12 @@ abstract class AbstractModel {
      */
     public static function create(array $data): array
     {
+        static::validateAttribute($data);
         $columns = [];
         $placeholders = [];
         $params = [];
 
         foreach ($data as $key => $value) {
-            static::validateAttribute($key);
-
             $columns[] = "`$key`";
             $placeholders[] = '?';
             $params[] = $value;
@@ -80,13 +98,12 @@ abstract class AbstractModel {
      */
     public static function update(array $data, int $id): array {
         static::getOne($id);
+        static::validateAttribute($data);
 
         $updates = [];
         $params = [];
 
         foreach ($data as $key => $value) {
-            static::validateAttribute($key);
-
             $updates[] = "`$key` = ?";
             $params[] = $value;
         }
